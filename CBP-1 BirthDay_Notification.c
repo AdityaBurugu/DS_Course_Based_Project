@@ -7,9 +7,7 @@
 Student students[100];
 
 int main() 
-{
-
-	
+{	
     FILE *file;
     
     time_t t = time(NULL);
