@@ -73,8 +73,10 @@ void insertStudent()
     printf("Student added successfully!\n");
 }
 
-void displayStudents() {
-    if (head == NULL) {
+void displayStudents() 
+{
+    if (head == NULL) 
+	{
         printf("No students found in the list.\n");
         return;
     }
