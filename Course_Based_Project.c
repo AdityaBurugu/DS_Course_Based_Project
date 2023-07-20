@@ -244,7 +244,7 @@ void Get_DOB(char Name[20],char DOB[20])
 void Generate_Birthday_Notification(Stack *Birthday_Names, Queue *Upcomming_Birthday_Names)
 {
 	int i;
-	int count;
+	int count=0;
 	
 	char popped[20];
 	char dequeued[20];
@@ -256,10 +256,11 @@ void Generate_Birthday_Notification(Stack *Birthday_Names, Queue *Upcomming_Birt
 
 		Get_Birthday_Names(Birthday_Names, Upcomming_Birthday_Names);
 		
+		count = Birthday_Names->top+1;
+		printf("----------------------------------------------------\n");
 		printf("Today's Events\n");
 		printf("----------------------------------------------------\n");
 		
-		count = Birthday_Names->top+1;
 		for(i=0;i<count;i++)
 		{
 			strcpy(popped,pop(Birthday_Names));
@@ -313,6 +314,8 @@ void insertStudent()
         newNode->prev = tail;
         tail = newNode;
     }
+    
+    Execution_Flag=1;
 
     printf("Student added successfully!\n");
 }
@@ -373,10 +376,13 @@ int count()
 }
 
 Node* searchByName(char name[50]) {
+	
+	char saved_name[20];
     Node* current = head;
 
     while (current != NULL) {
-        if (strcmp(current->student.name, name) == 0) {
+    	strcpy(saved_name,current->student.name);
+        if (strcmp(strlwr(saved_name), strlwr(name)) == 0) {
             return current;
         }
 
@@ -386,11 +392,14 @@ Node* searchByName(char name[50]) {
     return NULL;
 }
 
-void searchStudent() {
-	if(Execution_Flag==1)
+void searchStudent() 
+{
+	int studentcount = count();
+	if(studentcount>0)
 	{
+		Execution_Flag=1;
 	    char searchName[50];
-	    printf("Enter the friend's name to search: ");
+	    printf("Enter the student's name to search: ");
 	    scanf("%s", searchName);
 	
 	    Node* friendNode = searchByName(searchName);
@@ -407,6 +416,7 @@ void searchStudent() {
 	}
 	else
 	{
+		Execution_Flag=0;
 		printf("----------------------------------------------------\n");
 		printf("No Records to process this function\n");
 		printf("----------------------------------------------------\n");
@@ -414,9 +424,12 @@ void searchStudent() {
 	}
 }
 
-void searchByMonth() {
-	if(Execution_Flag==1)
+void searchByMonth() 
+{
+	int studentcount = count();
+	if(studentcount>0)
 	{
+		Execution_Flag=1;
 	    int searchMonth;
 	    printf("Enter the month (1-12) to search: ");
 	    scanf("%d", &searchMonth);
@@ -448,6 +461,7 @@ void searchByMonth() {
 	}
 	else
 	{
+		Execution_Flag=0;
 		printf("----------------------------------------------------\n");
 		printf("No Records to process this function\n");
 		printf("----------------------------------------------------\n");
@@ -455,21 +469,27 @@ void searchByMonth() {
 	}
 }
 
-void searchByOccupation() {
-	if(Execution_Flag==1)
+void searchByOccupation() 
+{
+	int studentcount = count();
+	if(studentcount>0)
 	{
+		Execution_Flag=1;
 	    char searchOccupation[50];
 	    printf("Enter the occupation to search: ");
 	    scanf("%s", searchOccupation);
-	
+		char saved_fathers_occupation[20];
+		char saved_mothers_occupation[20];
 	    Node* current = head;
 	    int found = 0;
 	
 	    printf("Parents with the specified occupation:\n");
 	    printf("----------------------------------------------------\n");
 	    while (current != NULL) {
-	        if (strcmp(current->student.fathersOccupation, searchOccupation) == 0 ||
-	            strcmp(current->student.mothersOccupation, searchOccupation) == 0) {
+	    	strcpy(saved_fathers_occupation,current->student.fathersOccupation);
+	    	strcpy(saved_mothers_occupation,current->student.mothersOccupation);
+	        if (strcmp(strlwr(saved_fathers_occupation), strlwr(searchOccupation)) == 0 ||
+	            strcmp(strlwr(saved_mothers_occupation), strlwr(searchOccupation)) == 0) {
 				printStudentDetails(current);
 	            printf("----------------------------------------------------\n");
 	
@@ -487,6 +507,7 @@ void searchByOccupation() {
 	}
 	else
 	{
+		Execution_Flag=0;
 		printf("----------------------------------------------------\n");
 		printf("No Records to process this function\n");
 		printf("----------------------------------------------------\n");
@@ -494,20 +515,24 @@ void searchByOccupation() {
 	}
 }
 
-void searchByBloodGroup() {
-	if(Execution_Flag==1)
+void searchByBloodGroup() 
+{
+	int studentcount = count();
+	if(studentcount>0)
 	{
+		Execution_Flag=1;
 	    char searchBloodGroup[50];
 	    printf("Enter the blood group to search: ");
 	    scanf("%s", searchBloodGroup);
-	
+		char saved_blood_group[20];
 	    Node* current = head;
 	    int found = 0;
 	
 	    printf("Students with the specified Blood Group:\n");
 	    printf("----------------------------------------------------\n");
 	    while (current != NULL) {
-	        if (strcmp(current->student.bloodGroup, searchBloodGroup) == 0) {
+	    	strcpy(saved_blood_group,current->student.bloodGroup);
+	        if (strcmp(strlwr(saved_blood_group), strlwr(searchBloodGroup)) == 0) {
 	            printStudentDetails(current);
 	            printf("----------------------------------------------------\n");
 	
@@ -525,6 +550,7 @@ void searchByBloodGroup() {
 	}
 	else
 	{
+		Execution_Flag=0;
 		printf("----------------------------------------------------\n");
 		printf("No Records to process this function\n");
 		printf("----------------------------------------------------\n");
@@ -532,9 +558,12 @@ void searchByBloodGroup() {
 	}
 }
 
-void searchByPhoneNumber() {
-	if(Execution_Flag==1)
+void searchByPhoneNumber() 
+{
+	int studentcount = count();
+	if(studentcount>0)
 	{
+		Execution_Flag=1;
 	    char searchPhoneNumber[50];
 	    printf("Enter the contact number to search: ");
 	    scanf("%s", searchPhoneNumber);
@@ -564,6 +593,7 @@ void searchByPhoneNumber() {
 	}
 	else
 	{
+		Execution_Flag=0;
 		printf("----------------------------------------------------\n");
 		printf("No Records to process this function\n");
 		printf("----------------------------------------------------\n");
@@ -572,22 +602,28 @@ void searchByPhoneNumber() {
 }
 
 
-void searchByCompany() {
-	if(Execution_Flag==1)
+void searchByCompany() 
+{
+	int studentcount = count();
+	if(studentcount>0)
 	{
+		Execution_Flag=1;
 	    char searchCompany[50];
 	    printf("Enter the company name to search: ");
 	    scanf("%s", searchCompany);
-	
+		char saved_fathers_company[20];
+		char saved_mothers_company[20];
 	    Node* current = head;
 	    int found = 0;
 	
 	    printf("Parents working for the specified company:\n");
 	    printf("----------------------------------------------------\n");
 	    while (current != NULL) {
-	        if (strcmp(current->student.fathersCompany, searchCompany) == 0 ||
-	            strcmp(current->student.mothersCompany, searchCompany) == 0) 
-				{
+	    	strcpy(saved_fathers_company,current->student.fathersCompany);
+	    	strcpy(saved_mothers_company,current->student.mothersCompany);
+	        if (strcmp(strlwr(saved_fathers_company), strlwr(searchCompany)) == 0 ||
+	        	strcmp(strlwr(saved_mothers_company), strlwr(searchCompany)) == 0) 
+			{
 	            printStudentDetails(current);
 	            printf("----------------------------------------------------\n");
 	
@@ -605,6 +641,7 @@ void searchByCompany() {
 	}
 	else
 	{
+		Execution_Flag=0;
 		printf("----------------------------------------------------\n");
 		printf("No Records to process this function\n");
 		printf("----------------------------------------------------\n");
@@ -612,9 +649,12 @@ void searchByCompany() {
 	}
 }
 
-void editStudent() {
-	if(Execution_Flag==1)
+void editStudent() 
+{
+	int studentcount = count();
+	if(studentcount>0)
 	{
+		Execution_Flag=1;
 	    char searchName[50];
 	    printf("Enter the student name to edit: ");
 	    scanf("%s", searchName);
@@ -634,6 +674,7 @@ void editStudent() {
 	}
 	else
 	{
+		Execution_Flag=0;
 		printf("----------------------------------------------------\n");
 		printf("No Records to process this function\n");
 		printf("----------------------------------------------------\n");
@@ -641,9 +682,12 @@ void editStudent() {
 	}
 }
 
-void deleteStudent() {
-	if(Execution_Flag==1)
+void deleteStudent() 
+{
+	int studentcount = count();
+	if(studentcount>0)
 	{
+		Execution_Flag=1;
 	    char searchName[50];
 	    printf("Enter the student name to delete: ");
 	    scanf("%s", searchName);
@@ -674,6 +718,7 @@ void deleteStudent() {
 	}
 	else
 	{
+		Execution_Flag=0;
 		printf("----------------------------------------------------\n");
 		printf("No Records to process this function\n");
 		printf("----------------------------------------------------\n");
@@ -681,8 +726,10 @@ void deleteStudent() {
 	}
 }
 
-void deleteAll() {
-	if(Execution_Flag==1)
+void deleteAll() 
+{
+	int studentcount = count();
+	if(studentcount>0)
 	{
 	    Node* current = head;
 	    while (current != NULL) {
@@ -704,6 +751,7 @@ void deleteAll() {
 		printf("----------------------------------------------------\n");
 
 	}
+	Execution_Flag=0;
 }
 
 void writeStudentDataToCSV(const char* filename) {
@@ -716,7 +764,7 @@ void writeStudentDataToCSV(const char* filename) {
     Node* current = head;
 
     while (current != NULL) {
-        fprintf(file, "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
+        fprintf(file, "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n",
                 current->student.name,
                 current->student.academicYear,
                 current->student.dob,
@@ -735,7 +783,8 @@ void writeStudentDataToCSV(const char* filename) {
     fclose(file);
 }
 
-int main() {
+int main() 
+{
 	char filename[20]="Students.csv";
 	if (isCSVFileEmpty(filename)) {
         printf("No Records found from '%s'\n", filename);
