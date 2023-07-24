@@ -1,27 +1,23 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
-#define MAX_SIZE 100
+#include "STACK.h"
 
-typedef struct {
-    char data[MAX_SIZE][50];
-    int top;
-} Stack;
-
-void initializeStack(Stack *stack) {
+void initializeStack(Stack *stack) 
+{
     stack->top = -1;
 }
 
-int StackisFull(Stack *stack) {
+int StackisFull(Stack *stack) 
+{
     return stack->top == MAX_SIZE - 1;
 }
 
-int StackisEmpty(Stack *stack) {
+int StackisEmpty(Stack *stack) 
+{
     return stack->top == -1;
 }
 
-void push(Stack *stack,char str[]) {
+void push(Stack *stack,char str[]) 
+{
     if (StackisFull(stack)) {
         printf("Error: Stack is full, cannot push more elements.\n");
         return;
@@ -30,8 +26,10 @@ void push(Stack *stack,char str[]) {
     strcpy(stack->data[++stack->top], str);
 }
 
-char* pop(Stack *stack) {
-    if (StackisEmpty(stack)) {
+char* pop(Stack *stack) 
+{
+    if (StackisEmpty(stack)) 
+	{
         printf("Error: Stack is empty, cannot pop an element.\n");
         return NULL;
     }

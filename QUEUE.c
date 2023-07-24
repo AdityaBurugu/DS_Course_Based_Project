@@ -1,29 +1,22 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-#define MAX_SIZE 100
-
-typedef struct {
-    char data[MAX_SIZE][50];
-    int front;
-    int rear;
-} Queue;
+#include "QUEUE.h"
 
 void initializeQueue(Queue *queue) {
     queue->front = -1;
     queue->rear = -1;
 }
 
-int QueueisFull(Queue *queue) {
+int QueueisFull(Queue *queue) 
+{
     return ((queue->rear + 1) % MAX_SIZE) == queue->front;
 }
 
-int QueueisEmpty(Queue *queue) {
+int QueueisEmpty(Queue *queue) 
+{
     return queue->front == -1 && queue->rear == -1;
 }
 
-void enqueue(Queue *queue, char str[]) {
+void enqueue(Queue *queue, char str[]) 
+{
     if (QueueisFull(queue)) {
         printf("Error: Queue is full, cannot enqueue more elements.\n");
         return;
@@ -39,7 +32,8 @@ void enqueue(Queue *queue, char str[]) {
     strcpy(queue->data[queue->rear], str);
 }
 
-char* dequeue(Queue *queue) {
+char* dequeue(Queue *queue) 
+{
     if (QueueisEmpty(queue)) {
         printf("Error: Queue is empty, cannot dequeue an element.\n");
         return NULL;
