@@ -9,4 +9,4 @@ void Get_DOB(char Name[20],char DOB[20]);
 
 void Generate_Birthday_Notification(Stack *Birthday_Names, Queue *Upcomming_Birthday_Names);
 
-
+void displayUpcomingBirthdays(int n);

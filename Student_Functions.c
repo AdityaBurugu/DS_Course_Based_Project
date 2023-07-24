@@ -73,7 +73,7 @@ void displayStudents()
     if (head == NULL) 
 	{
 		printf("----------------------------------------------------\n");
-        printf("No students found in the list.\n");
+        printf("No Records to process this function\n");
         printf("----------------------------------------------------\n");
         return;
     }

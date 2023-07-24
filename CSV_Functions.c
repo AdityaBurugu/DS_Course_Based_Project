@@ -20,75 +20,120 @@ int isCSVFileEmpty(const char* filename)
 }
 
 
-int Read_CSV(char Filename[50])
+int Read_CSV(const char* Filename) 
 {
-	FILE *file;
+    FILE* file;
 
- // Open the CSV file for reading
+    // Open the CSV file for reading
     file = fopen(Filename, "r");
     if (file == NULL) {
         printf("Failed to open the file.\n");
         return 1;
     }
 
-    // Read and process each line of the CSV file
-    while (fgets(line, sizeof(line), file)) 
-	{
-        // Split the line into fields
-        char *token = strtok(line, ",");
-        num_fields = 0;
+    while (fgets(line, sizeof(line), file)) {
+        // Allocate memory for a new node
+        Node* newNode = (Node*)malloc(sizeof(Node));
+        if (newNode == NULL) {
+            printf("Memory allocation failed.\n");
+            fclose(file);
+            return 1;
+        }
 
+        // Split the line into fields using strtok
+        char* token = strtok(line, ",");
+        num_fields = 0;
         while (token != NULL && num_fields < MAX_FIELDS) 
 		{
-            fields[num_fields++] = token;
+            switch (num_fields) 
+			{
+                case 0:
+                    strcpy(newNode->student.name, token);
+                    break;
+                case 1:
+                    strcpy(newNode->student.academicYear, token);
+                    break;
+                case 2:
+                    strcpy(newNode->student.dob, token);
+                    break;
+                case 3:
+                    strcpy(newNode->student.bloodGroup, token);
+                    break;
+                case 4:
+                    strcpy(newNode->student.fathersName, token);
+                    break;
+                case 5:
+                    strcpy(newNode->student.fathersOccupation, token);
+                    break;
+                case 6:
+                    strcpy(newNode->student.fathersCompany, token);
+                    break;
+                case 7:
+                    strcpy(newNode->student.mothersName, token);
+                    break;
+                case 8:
+                    strcpy(newNode->student.mothersOccupation, token);
+                    break;
+                case 9:
+                    strcpy(newNode->student.mothersCompany, token);
+                    break;
+                case 10:
+                    strcpy(newNode->student.studentPhone, token);
+                    break;
+                case 11:
+                    strcpy(newNode->student.parentsPhone, token);
+                    break;
+                default:
+                    break;
+            }
+
             token = strtok(NULL, ",");
+            num_fields++;
         }
-			Node* newNode = (Node*)malloc(sizeof(Node));
-			strcpy(newNode->student.name,fields[0]);
-			strcpy(newNode->student.academicYear,fields[1]);
-			strcpy(newNode->student.dob,fields[2]);
-			strcpy(newNode->student.bloodGroup,fields[3]);
-			strcpy(newNode->student.fathersName,fields[4]);
-			strcpy(newNode->student.fathersOccupation,fields[5]);
-			strcpy(newNode->student.fathersCompany,fields[6]);
-			strcpy(newNode->student.mothersName,fields[7]);
-			strcpy(newNode->student.mothersOccupation,fields[8]);
-			strcpy(newNode->student.mothersCompany,fields[9]);
-			strcpy(newNode->student.studentPhone,fields[10]);
-			strcpy(newNode->student.parentsPhone,fields[11]);
 
-			
-			newNode->prev = NULL;
-    		newNode->next = NULL;
+        // Free the memory allocated by strtok for the line
+        free(token);
 
-		    if (head == NULL) 
-			{
-		        head = newNode;
-		        tail = newNode;
-		    } 
-			else 
-			{
-		        tail->next = newNode;
-		        newNode->prev = tail;
-		        tail = newNode;
-		    }
+        newNode->prev = NULL;
+        newNode->next = NULL;
+
+        if (head == NULL) {
+            head = newNode;
+            tail = newNode;
+        } else {
+            tail->next = newNode;
+            newNode->prev = tail;
+            tail = newNode;
+        }
     }
+
     // Close the file
     fclose(file);
+
+    return 0;
 }
 
 void writeStudentDataToCSV(const char* filename) 
 {
     FILE* file = fopen(filename, "w");
-    if (file == NULL) {
+    if (file == NULL) 
+	{
         printf("Error: Unable to open the file '%s' for writing\n", filename);
         return;
     }
 
     Node* current = head;
 
-    while (current != NULL) {
-        fprintf(file, "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
+    // Check if the linked list is empty
+    if (current == NULL) 
+	{
+        fclose(file);
+        return;
+    }
+
+    while (current != NULL) 
+	{
+        fprintf(file, "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n",
                 current->student.name,
                 current->student.academicYear,
                 current->student.dob,
@@ -104,6 +149,8 @@ void writeStudentDataToCSV(const char* filename)
 
         current = current->next;
     }
+
     fclose(file);
 }
+
 

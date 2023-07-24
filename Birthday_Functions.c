@@ -4,8 +4,11 @@
 void Get_Birthday_Names(Stack *Birthday_Names ,Queue *Upcomming_Birthdays)
 {
 	int current_day,current_month,studentcount;
-	int birthDay,birthMonth,birthYear;
+	int birthDay,birthMonth;
 	struct tm *current_time;
+	int target_day,target_month;
+	
+	int duration = 14;
 	
 	initializeStack(Birthday_Names);
 	initializeQueue(Upcomming_Birthdays);
@@ -23,21 +26,34 @@ void Get_Birthday_Names(Stack *Birthday_Names ,Queue *Upcomming_Birthdays)
 		//Fetching Current month
 		current_month = current_time->tm_mon + 1;
 		
+		target_month = current_month;
+    	target_day = current_day + duration;
+    	
+    	if (target_day > 31) 
+		{
+	        target_day -= 31;
+	        target_month++;
+	    }
+	
+	    if (target_month > 12) 
+		{
+	        target_month -= 12;
+	    }
+		
 	    Node* current = head;
 	    
 	    while (current != NULL) {
-	        sscanf(current->student.dob, "%d/%d/%d", &birthDay, &birthMonth, &birthYear);
+	        sscanf(current->student.dob, "%d/%d", &birthDay, &birthMonth);
 	        
 	        if((current_day == birthDay) && (current_month == birthMonth)) 
 			{
 				push(Birthday_Names,current->student.name);
 	        }
 	        
-	        if((birthDay > current_day) && (current_month == birthMonth))
-	        
-	        {
-	        	enqueue(Upcomming_Birthdays,current->student.name);
-			}
+	        if (birthMonth == target_month && birthDay <= target_day) 
+			{
+	            enqueue(Upcomming_Birthdays,current->student.name);
+	        }
 	        
 	        current = current->next;
 	    }	
@@ -190,5 +206,3 @@ void Generate_Birthday_Notification(Stack *Birthday_Names, Queue *Upcomming_Birt
 
 	}
 }
-
-
